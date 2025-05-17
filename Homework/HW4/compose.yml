@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  api:
+    image: docker.jala.pro/docker-training/backend:watsonluis
+    volumes:
+      - api_data:/app/data
+    container_name: backend
+    networks:
+      - api_network
+
+  fe:
+    depends_on:
+      - api
+    image: docker.jala.pro/docker-training/frontend:watsonluis
+    ports:
+      - 5001:5001
+    volumes:
+      - fe_data:/app/data
+    container_name: frontend
+    networks:
+      - api_network
+volumes:
+  api_data:
+    driver: local
+  fe_data:
+    driver: local
+networks:
+  api_network:
+    driver: bridge
